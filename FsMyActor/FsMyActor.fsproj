@@ -91,13 +91,6 @@
     </Otherwise>
   </Choose>
   <Import Project="$(FSharpTargetsPath)" />
-  <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6' Or $(TargetFrameworkVersion) == 'v4.6.1' Or $(TargetFrameworkVersion) == 'v4.6.2')">
-      <PropertyGroup>
-        <__paket__Microsoft_ServiceFabric_Actors_targets>Microsoft.ServiceFabric.Actors</__paket__Microsoft_ServiceFabric_Actors_targets>
-      </PropertyGroup>
-    </When>
-  </Choose>
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <None Include="App.config" />
@@ -128,6 +121,11 @@
     <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FsActorApp.Contracts\FsActorApp.Contracts.fsproj">
+      <Name>FsActorApp.Contracts</Name>
+      <Project>{dfaf4374-ec02-422d-99d5-dfb0b85fd64c}</Project>
+      <Private>True</Private>
+    </ProjectReference>
     <ProjectReference Include="..\FsMyActor.Interfaces\FsMyActor.Interfaces.fsproj">
       <Name>FsMyActor.Interfaces</Name>
       <Project>{fb88b447-d04f-462c-816d-92fccafc3770}</Project>
