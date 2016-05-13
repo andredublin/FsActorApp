@@ -23,8 +23,7 @@ type internal FsMyActor() =
         member x.UpdateCountAsync() = 
             ActorEventSource.Current.ActorMessage(x, "Updating Count", [||])
             let state = x.StateManager.GetStateAsync<ImmutableFsMyActorState>("count")
-            upcast x.StateManager.AddOrUpdateStateAsync
-                       ("count", state.Result, fun _ v -> { v with Count = v.Count + 1 })
+            upcast x.StateManager.AddOrUpdateStateAsync("count", state.Result, fun _ v -> v |> updateCount)
         
         member x.GetCountAsync() = 
             ActorEventSource.Current.ActorMessage(x, "Getting Count", [||])
