@@ -1,9 +1,8 @@
 ﻿module FsActorApp.ActorEventSource
 
 open System.Diagnostics.Tracing
-open System.Fabric
 open System.Threading.Tasks
-open Microsoft.ServiceFabric.Actors
+open Microsoft.ServiceFabric.Actors.Runtime
 
 [<Literal>]
 let MessageEventId = 1
@@ -26,51 +25,50 @@ type internal ActorEventSource =
     static member ActorEventSource = Task.FromResult().Wait()
 
     [<NonEvent>]
-    member this.Message (message : string, args : array<'T>) =
-        if this.IsEnabled() then
-            let finalMessage = System.String.Format(message, args)
-            this.Message(finalMessage)
+    member x.Message (message : string, args : array<'T>) =
+        if x.IsEnabled() then
+            System.String.Format(message, args) |> x.Message
 
     [<Event(MessageEventId, Level = EventLevel.Informational, Message = "{0}")>]
-    member this.Message (message : string) =
-        if this.IsEnabled() then
-            this.WriteEvent(MessageEventId, message)
+    member x.Message (message : string) =
+        if x.IsEnabled() then
+            x.WriteEvent(MessageEventId, message)
 
     [<NonEvent>]
-    member this.ActorMessage (actor : StatelessActor, message, args : array<'T>) =
-        if this.IsEnabled() then
+    member x.ActorMessage (actor : Actor, message, args : array<'T>) =
+        if x.IsEnabled() 
+           && not <| isNull actor.Id
+           && not <| isNull actor.ActorService
+           && not <| isNull actor.ActorService.Context
+           && not <| isNull actor.ActorService.Context.CodePackageActivationContext then
             let finalMessage = System.String.Format(message, args)
-            this.ActorMessage(
+            x.ActorMessage(
                 actor.GetType().ToString(),
                 actor.Id.ToString(),
-                actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                actor.ActorService.ServiceInitializationParameters.PartitionId,
-                actor.ActorService.ServiceInitializationParameters.InstanceId,
-                FabricRuntime.GetNodeContext().NodeName,
-                finalMessage)
-    
-    [<NonEvent>]
-    member this.ActorMessage (actor : StatefulActorBase, message, args : array<'T>) =
-        if this.IsEnabled() then
-            let finalMessage = System.String.Format(message, args)
-            this.ActorMessage(
-                actor.GetType().ToString(),
-                actor.Id.ToString(),
-                actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationTypeName,
-                actor.ActorService.ServiceInitializationParameters.CodePackageActivationContext.ApplicationName,
-                actor.ActorService.ServiceInitializationParameters.ServiceTypeName,
-                actor.ActorService.ServiceInitializationParameters.ServiceName.ToString(),
-                actor.ActorService.ServiceInitializationParameters.PartitionId,
-                actor.ActorService.ServiceInitializationParameters.ReplicaId,
-                FabricRuntime.GetNodeContext().NodeName,
+                actor.ActorService.Context.CodePackageActivationContext.ApplicationTypeName,
+                actor.ActorService.Context.CodePackageActivationContext.ApplicationName,
+                actor.ActorService.Context.ServiceTypeName,
+                actor.ActorService.Context.ServiceName.ToString(),
+                actor.ActorService.Context.PartitionId,
+                actor.ActorService.Context.ReplicaId,
+                actor.ActorService.Context.NodeContext.NodeName,
                 finalMessage)
 
     [<Event(ActorMessageEventId, Level = EventLevel.Informational, Message = "{9}")>]
-    member private this.ActorMessage (actorType, actorId, applicationTypeName, applicationName, serviceTypeName, serviceName, partitionId, replicaOrInstanceId, nodeName, message) =
-        this.WriteEvent(ActorMessageEventId, actorType,
+    member private x.ActorMessage (
+                                    actorType, 
+                                    actorId, 
+                                    applicationTypeName, 
+                                    applicationName, 
+                                    serviceTypeName, 
+                                    serviceName, 
+                                    partitionId, 
+                                    replicaOrInstanceId, 
+                                    nodeName, 
+                                    message) =
+        x.WriteEvent(
+            ActorMessageEventId, 
+            actorType,
             actorId,
             applicationTypeName,
             applicationName,
@@ -81,6 +79,10 @@ type internal ActorEventSource =
             nodeName,
             message)
 
-    [<Event(ActorHostInitializationFailedEventId, Level = EventLevel.Error, Message = "Actor host initialization failed", Keywords = EventKeywords.None)>]
-    member this.ActorHostInitializationFailed (ex : string) =
-        this.WriteEvent(ActorHostInitializationFailedEventId, ex)
+    [<Event(
+        ActorHostInitializationFailedEventId, 
+        Level = EventLevel.Error, 
+        Message = "Actor host initialization failed", 
+        Keywords = EventKeywords.None)>]
+    member x.ActorHostInitializationFailed (ex : string) =
+        x.WriteEvent(ActorHostInitializationFailedEventId, ex)

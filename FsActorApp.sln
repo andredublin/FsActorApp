@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".paket", ".paket", "{C32B384A-264A-4FE7-9607-4A4FB5A2CB09}"
 	ProjectSection(SolutionItems) = preProject
@@ -37,16 +37,16 @@ Global
 		{063E5D61-A85F-4D7B-8288-E2F79D9256FA}.Release|x64.Deploy.0 = Release|x64
 		{7433F643-0914-4A1A-8220-D0A023FB3B71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7433F643-0914-4A1A-8220-D0A023FB3B71}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7433F643-0914-4A1A-8220-D0A023FB3B71}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{7433F643-0914-4A1A-8220-D0A023FB3B71}.Debug|x64.Build.0 = Debug|Any CPU
+		{7433F643-0914-4A1A-8220-D0A023FB3B71}.Debug|x64.ActiveCfg = Debug|x64
+		{7433F643-0914-4A1A-8220-D0A023FB3B71}.Debug|x64.Build.0 = Debug|x64
 		{7433F643-0914-4A1A-8220-D0A023FB3B71}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7433F643-0914-4A1A-8220-D0A023FB3B71}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7433F643-0914-4A1A-8220-D0A023FB3B71}.Release|x64.ActiveCfg = Release|x64
 		{7433F643-0914-4A1A-8220-D0A023FB3B71}.Release|x64.Build.0 = Release|x64
 		{FB88B447-D04F-462C-816D-92FCCAFC3770}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FB88B447-D04F-462C-816D-92FCCAFC3770}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FB88B447-D04F-462C-816D-92FCCAFC3770}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{FB88B447-D04F-462C-816D-92FCCAFC3770}.Debug|x64.Build.0 = Debug|Any CPU
+		{FB88B447-D04F-462C-816D-92FCCAFC3770}.Debug|x64.ActiveCfg = Debug|x64
+		{FB88B447-D04F-462C-816D-92FCCAFC3770}.Debug|x64.Build.0 = Debug|x64
 		{FB88B447-D04F-462C-816D-92FCCAFC3770}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB88B447-D04F-462C-816D-92FCCAFC3770}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FB88B447-D04F-462C-816D-92FCCAFC3770}.Release|x64.ActiveCfg = Release|x64

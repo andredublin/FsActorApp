@@ -1,31 +1,27 @@
 ﻿module FsActorApp.Actors
 
 open FsMyActor.OperationContracts
-open Microsoft.ServiceFabric.Actors
-open System.Threading.Tasks
-open System.Runtime.Serialization
+open Microsoft.ServiceFabric.Actors.Runtime
 open FsActorApp.ActorEventSource
 
-[<DataContract>]
-[<CLIMutable>]
-type ImmutableFsMyActorState = 
-    { [<DataMember>]
-      Count : int }
+[<StatePersistence(StatePersistence.Persisted)>]
+type internal FsMyActor() = 
+    inherit Actor()
 
-module FsMyActorActions = 
-    let updateCount state = { state with Count = state.Count + 1 }
-
-open FsMyActorActions
-
-type FsMyActor() = 
-    inherit StatefulActor<ImmutableFsMyActorState>()
-    let emptyTask() = Task.FromResult() :> Task
+    override x.OnActivateAsync() =
+        ActorEventSource.Current.ActorMessage(x, "ActorActivated", [||])
+        x.StateManager.AddStateAsync("count", 0)
 
     interface IFsMyActor with
         
-        member this.SetCountAsync() = 
-            this.State <- this.State |> updateCount
-            ActorEventSource.Current.ActorMessage(this, "Updating Count", [||])
-            this.SaveStateAsync()
+        member x.SetCountAsync count = 
+            ActorEventSource.Current.ActorMessage(x, "Updating Count", [||])
+            upcast x.StateManager.AddOrUpdateStateAsync("count", count, fun k v -> if count > v then count else v)
         
-        member this.GetCountAsync() = this.State.Count |> Task.FromResult
+        member x.GetCountAsync() = 
+            ActorEventSource.Current.ActorMessage(x, "Getting Count", [||])
+            x.StateManager.GetStateAsync<int>("count")
+
+        member x.RemoveCountAsync() =
+            ActorEventSource.Current.ActorMessage(x, "Removing Count", [||])
+            x.StateManager.RemoveStateAsync("count")

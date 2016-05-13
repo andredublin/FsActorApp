@@ -1,0 +1,6 @@
+source https://www.nuget.org/api/v2
+
+nuget Microsoft.ServiceFabric
+nuget Microsoft.ServiceFabric.Actors
+nuget Microsoft.ServiceFabric.Data
+nuget Microsoft.ServiceFabric.Services
