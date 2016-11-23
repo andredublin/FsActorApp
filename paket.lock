@@ -1,13 +1,12 @@
 NUGET
   remote: https://www.nuget.org/api/v2
-  specs:
-    Microsoft.ServiceFabric (5.0.217)
-    Microsoft.ServiceFabric.Actors (2.0.217)
-      Microsoft.ServiceFabric (5.0.217)
-      Microsoft.ServiceFabric.Data (2.0.217)
-      Microsoft.ServiceFabric.Services (2.0.217)
-    Microsoft.ServiceFabric.Data (2.0.217)
-      Microsoft.ServiceFabric (5.0.217)
-    Microsoft.ServiceFabric.Services (2.0.217)
-      Microsoft.ServiceFabric (5.0.217)
-      Microsoft.ServiceFabric.Data (2.0.217)
+    Microsoft.ServiceFabric (5.3.311)
+    Microsoft.ServiceFabric.Actors (2.3.311)
+      Microsoft.ServiceFabric (5.3.311)
+      Microsoft.ServiceFabric.Data (2.3.311)
+      Microsoft.ServiceFabric.Services (2.3.311)
+    Microsoft.ServiceFabric.Data (2.3.311)
+      Microsoft.ServiceFabric (5.3.311)
+    Microsoft.ServiceFabric.Services (2.3.311)
+      Microsoft.ServiceFabric (5.3.311)
+      Microsoft.ServiceFabric.Data (2.3.311)
